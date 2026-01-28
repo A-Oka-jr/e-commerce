@@ -9,3 +9,6 @@ export class CreateUserDto {
     createdAt?: Date | string;
     updatedAt?: Date | string;
 }
+
+export class UpdateUserDto extends CreateUserDto {
+}

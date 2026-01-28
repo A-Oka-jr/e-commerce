@@ -1,20 +1,20 @@
 import { User, Role } from "../generated/prisma/client";
 import { prisma } from "../lib/prisma";
-import { CreateUserDto } from "./user.dto";
+import { CreateUserDto, UpdateUserDto } from "./user.dto";
 import * as bcrypt from 'bcryptjs';
 import "dotenv/config";
 
-export const userService = {
-    getAllUsers: async () => {
+class userService {
+    static getAllUsers = async () => {
         // join vendor table
         return await prisma.user.findMany({
             include: {
                 vendor: true,
             },
         });
-    },
+    }
 
-    create: async (userDto: CreateUserDto) => {
+    static create = async (userDto: CreateUserDto) => {
         const saltRounds = Number(process.env.SALT_ROUNDS) || 10;
         const passwordHash = await bcrypt.hash(userDto.password, saltRounds);
 
@@ -32,17 +32,19 @@ export const userService = {
         }
 
         return await prisma.user.create({ data: userData });
-    },
+    }
 
-    getOneUser: async (id: string) => {
+    static getOneUser = async (id: string) => {
         return await prisma.user.findUnique({ where: { id } });
-    },
+    }
 
-    updateUser: async (id: string, user: Partial<CreateUserDto>) => {
+    static updateUser = async (id: string, user: Partial<UpdateUserDto>) => {
         return await prisma.user.update({ where: { id }, data: user });
-    },
+    }
 
-    deleteUser: async (id: string) => {
+    static deleteUser = async (id: string) => {
         return await prisma.user.delete({ where: { id } });
-    },
+    }
 };
+
+export default userService;
