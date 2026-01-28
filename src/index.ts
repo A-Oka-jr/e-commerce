@@ -12,6 +12,13 @@ const port = process.env.PORT || 3000;
 
 app.use(Express.json());
 app.use(cors());
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.originalUrl}`);
+  console.log("QUERY:", req.query);
+  console.log("PARAMS:", req.params);
+  console.log("BODY:", req.body);
+  next();
+});
 
 app.get("/", (req, res) => {
   res.send("Hello, World!")
