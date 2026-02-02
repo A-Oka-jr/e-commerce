@@ -42,17 +42,18 @@ model Vendor {
 }
 
 model Product {
-  id         String      @id @default(uuid())
-  name       String
-  price      Decimal
-  categoryId String
-  stock      Int
-  vendorId   String
-  vendor     Vendor      @relation(fields: [vendorId], references: [id])
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  orderItems OrderItem[]
-  category   Category    @relation(fields: [categoryId], references: [id])
+  id          String      @id @default(uuid())
+  name        String
+  price       Decimal
+  categoryId  String
+  stock       Int
+  vendorId    String
+  description String?
+  vendor      Vendor      @relation(fields: [vendorId], references: [id])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  orderItems  OrderItem[]
+  category    Category    @relation(fields: [categoryId], references: [id])
 }
 
 model Category {
